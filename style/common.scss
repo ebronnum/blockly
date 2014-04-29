@@ -10,7 +10,7 @@ $green: #b9bf15;
 @mixin font {
   font-family: 'Gotham A', 'Gotham B', sans-serif;
 }
-
+$mobileScalingFactor: 0.6;
 
 body {
   @include font;
@@ -72,9 +72,15 @@ html[dir="RTL"] .farSide {
 }
 
 #visualization {
+  $visualizationSize: 400px;
+
   position: relative;
-  height: 400px;
+  height: $visualizationSize;
   margin-bottom: 5px;
+
+  .isMobile &.isScaled {
+    height: $visualizationSize * $mobileScalingFactor;
+  }
 }
 
 /* Buttons */

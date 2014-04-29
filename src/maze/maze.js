@@ -107,8 +107,14 @@ var loadLevel = function() {
   Maze.MAZE_WIDTH = Maze.SQUARE_SIZE * Maze.COLS;
   Maze.MAZE_HEIGHT = Maze.SQUARE_SIZE * Maze.ROWS;
   Maze.PATH_WIDTH = Maze.SQUARE_SIZE / 3;
-};
 
+  var attributesToScale = [
+        'SQUARE_SIZE', 'PEGMAN_HEIGHT', 'PEGMAN_WIDTH', 'PEGMAN_Y_OFFSET', 
+        'MARKER_HEIGHT', 'MARKER_WIDTH', 'DIRT_HEIGHT', 'DIRT_WIDTH',
+        'MAZE_WIDTH', 'MAZE_HEIGHT', 'PATH_WIDTH'
+      ];
+  Maze.IS_SCALED = BlocklyApps.applyScalingFactor(Maze, attributesToScale);
+};
 
 var initWallMap = function() {
   Maze.wallMap = new Array(Maze.ROWS);
@@ -167,6 +173,7 @@ var drawMap = function() {
 
   // Adjust visualization and belowVisualization width.
   var visualization = document.getElementById('visualization');
+  if (Maze.IS_SCALED) visualization.className += 'isScaled';
   visualization.style.width = Maze.MAZE_WIDTH + 'px';
   var belowVisualization = document.getElementById('belowVisualization');
   belowVisualization.style.width = Maze.MAZE_WIDTH + 'px';

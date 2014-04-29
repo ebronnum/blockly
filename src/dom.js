@@ -66,7 +66,15 @@ var TOUCH_MAP = {
   }
 };
 
-exports.isMobile = function() {
-  var reg = /Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile/;
-  return reg.test(window.navigator.userAgent);
-};
+exports.isMobile = (function() {
+  var reg = /Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile/,
+      result = reg.test(window.navigator.userAgent);
+
+  if (result) {
+    document.getElementsByTagName("body")[0].className += "isMobile";   /* Class used for optimizing CSS */
+  }
+
+  return function() {
+    return result;
+  };
+}());

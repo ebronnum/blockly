@@ -59,6 +59,12 @@ BlocklyApps.MIN_MOBILE_SHARE_WIDTH = 450;
 BlocklyApps.MIN_MOBILE_NO_PADDING_SHARE_WIDTH = 400;
 
 /**
+ * Scaling for devices types.
+ */
+BlocklyApps.BASE_SCALING_FACTOR = 1;
+BlocklyApps.SMALL_SCALING_FACTOR = 0.6; /* Keep this value in sync with $mobileScalingFactor in common.scss */
+
+/**
  * If the user presses backspace, stop propagation - this prevents blockly
  * from eating the backspace key
  * @param {!Event} e Keyboard event.
@@ -570,6 +576,26 @@ BlocklyApps.checkTimeout = function(opt_id) {
   if (BlocklyApps.ticks-- < 0) {
     throw Infinity;
   }
+};
+
+/**
+ * Apply a scaling factor to blockly attributes.
+ * @param {object} module of blockly containing attributes to be scaled.
+ * @param {array} attributes to be scaled.
+ */
+BlocklyApps.applyScalingFactor = function(module, attributes) {
+  var BA = BlocklyApps,
+      scalingFactor = (dom.isMobile() ? BA.SMALL_SCALING_FACTOR : BA.BASE_SCALING_FACTOR),
+      attr;
+
+  if (scalingFactor === 1) return false;
+
+  for (var i = attributes.length; i--;) {
+    attr = attributes[i];
+    module[attr] = Math.round(module[attr] * scalingFactor);
+  }
+
+  return true;
 };
 
 // The following properties get their non-default values set by the application.
